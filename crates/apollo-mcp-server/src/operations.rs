@@ -648,7 +648,7 @@ impl Operation {
                              document: &Document,) -> HashMap<String, Vec<String>> {
         let mut schema_tree_shaker = SchemaTreeShaker::new(schema);
         schema_tree_shaker.retain_operation(operation, document, DepthLimit::Unlimited);
-        schema_tree_shaker.argument_descriptions()
+        schema_tree_shaker.argument_descriptions().clone()
     }
 }
 

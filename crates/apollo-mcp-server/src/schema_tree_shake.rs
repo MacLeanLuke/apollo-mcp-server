@@ -537,20 +537,22 @@ fn selection_set_to_fields(
 
 fn retain_variable_descriptions(
     tree_shaker: &mut SchemaTreeShaker,
-    field_type_argument_name: &Name,
-    field_type_argument_description: &Option<Node<str>>,
+    field_type_argument_name: &str,
+    field_type_argument_description: Option<&str>,
     operation_arguments: &HashMap<&str, &Name>) {
-    let variable_name  = operation_arguments.get(field_type_argument_name.as_str());
+    let variable_name  = operation_arguments.get(field_type_argument_name);
 
     if let Some(variable_name) = variable_name {
         let descriptions = tree_shaker.arguments_descriptions.entry(variable_name.to_string()).or_insert(Vec::default());
-        match &field_type_argument_description {
-            Some(description) if description.trim().is_empty() => { descriptions.push(description.to_string()) }
-            _ => { }
+        if let Some(description) =  field_type_argument_description {
+            if !description.trim().is_empty() { 
+                descriptions.push(description.to_string()) 
+            }
         }
     }
 }
 
+#[unsafe(no_mangle)]
 fn retain_type(
     tree_shaker: &mut SchemaTreeShaker,
     extended_type: &ExtendedType,
@@ -659,7 +661,7 @@ fn retain_type(
                             }
 
                             field_type.arguments.iter().for_each(|arg| {
-                                retain_variable_descriptions(tree_shaker, &arg.name, &arg.description, &field_arguments);
+                                retain_variable_descriptions(tree_shaker, arg.name.as_str(), arg.description.as_deref(), &field_arguments);
 
                                 let arg_type_name = arg.ty.inner_named_type();
                                 if let Some(arg_type) = tree_shaker.schema.types.get(arg_type_name)
@@ -690,10 +692,10 @@ fn retain_type(
                         }
                         if let Some(field_selection_directives) = field_selection_directives {
                             field_selection_directives.iter().for_each(|directive| {
-                                directive.arguments.iter().for_each(|arg| {
-                                    // TODO: figure out how to get the description
-                                    retain_variable_descriptions(tree_shaker, &arg.name, &arg.description, &field_arguments);
-                                });
+                                // directive.arguments.iter().for_each(|arg| {
+                                //     // TODO: figure out how to get the description
+                                //     retain_variable_descriptions(tree_shaker, arg.name.as_str(), arg.description.as_deref(), &field_arguments);
+                                // });
                                 retain_directive(tree_shaker, directive.name.as_str(), depth_limit);
                             })
                         }
