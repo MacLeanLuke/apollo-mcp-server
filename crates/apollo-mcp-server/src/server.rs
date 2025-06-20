@@ -1,7 +1,5 @@
-use crate::custom_scalar_map::CustomScalarMap;
-use crate::errors::ServerError;
-use crate::event::Event as ServerEvent;
-use crate::operations::{MutationMode, OperationSource};
+use std::net::IpAddr;
+
 pub use apollo_mcp_registry::uplink::UplinkConfig;
 pub use apollo_mcp_registry::uplink::persisted_queries::ManifestSource;
 pub use apollo_mcp_registry::uplink::schema::SchemaSource;
@@ -11,7 +9,11 @@ pub use rmcp::ServiceExt;
 pub use rmcp::transport::SseServer;
 pub use rmcp::transport::sse_server::SseServerConfig;
 pub use rmcp::transport::stdio;
-use std::net::IpAddr;
+
+use crate::custom_scalar_map::CustomScalarMap;
+use crate::errors::ServerError;
+use crate::event::Event as ServerEvent;
+use crate::operations::{MutationMode, OperationSource};
 
 mod states;
 
