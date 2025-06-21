@@ -1,0 +1,37 @@
+{
+  "name": "apollo-mcp",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/apollo-mcp",
+  "projectType": "application",
+  "tags": ["mcp", "graphql", "apollo", "rust"],
+  "targets": {
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "export PATH=\"$HOME/.local/bin:$PATH\" && apollo-mcp-server --directory . --http-port 5000 --operations ./operations/ExploreCelestialBodies.graphql ./operations/GetAstronautDetails.graphql ./operations/GetAstronautsCurrentlyInSpace.graphql ./operations/SearchUpcomingLaunches.graphql --endpoint https://thespacedevs-production.up.railway.app/ --schema ./api.graphql",
+        "cwd": "apps/apollo-mcp/graphql/TheSpaceDevs"
+      }
+    },
+    "serve-rover": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "export PATH=\"$HOME/.rover/bin:$PATH\" && rover dev --supergraph-config ./supergraph.yaml --mcp --mcp-operations ./operations/ExploreCelestialBodies.graphql ./operations/GetAstronautDetails.graphql ./operations/GetAstronautsCurrentlyInSpace.graphql ./operations/SearchUpcomingLaunches.graphql",
+        "cwd": "apps/apollo-mcp/graphql/TheSpaceDevs"
+      }
+    },
+    "install": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "curl -sSL https://mcp.apollo.dev/download/nix/latest | sh",
+        "cwd": "apps/apollo-mcp"
+      }
+    },
+    "install-rover": {
+      "executor": "nx:run-commands", 
+      "options": {
+        "command": "curl -sSL https://rover.apollo.dev/nix/latest | sh",
+        "cwd": "apps/apollo-mcp"
+      }
+    }
+  }
+}
