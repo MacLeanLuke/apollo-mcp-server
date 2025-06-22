@@ -8,7 +8,7 @@
     "serve": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "export PATH=\"$HOME/.local/bin:$PATH\" && apollo-mcp-server --directory . --http-port 5000 --operations ./operations/ExploreCelestialBodies.graphql ./operations/GetAstronautDetails.graphql ./operations/GetAstronautsCurrentlyInSpace.graphql ./operations/SearchUpcomingLaunches.graphql --endpoint https://thespacedevs-production.up.railway.app/ --schema ./api.graphql",
+        "command": "export PATH=\"$HOME/.local/bin:$PATH\" && apollo-mcp-server --directory . --http-port 5001 --operations ./operations/ExploreCelestialBodies.graphql ./operations/GetAstronautDetails.graphql ./operations/GetAstronautsCurrentlyInSpace.graphql ./operations/SearchUpcomingLaunches.graphql --endpoint https://thespacedevs-production.up.railway.app/ --schema ./api.graphql",
         "cwd": "apps/apollo-mcp/graphql/TheSpaceDevs"
       }
     },
